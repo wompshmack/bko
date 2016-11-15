@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
+//#include <SFML/Sprite.hpp>
+//#include <SFML/Texture.hpp>
 
-class Entity {
+class Entity 
+{
   int hp;
   int currenthp;
   int strength;
@@ -9,8 +12,9 @@ class Entity {
   int intelligence;
   int movespeed;
   int attackspeed;
-  //sprite placeholder
-public:
+  public:
+  sf::Texture texture;
+  sf::Sprite sprite;
   void update()
   {
     //state update(on the ground? etc)
@@ -21,13 +25,18 @@ public:
   {
     //hitstun
     //reduce hp by damage ammount
-
+  }
+};
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(640, 480), "Bunny Killer: Origins");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
+    
+    Entity player;
+    if (!player.texture.loadFromFile("moosh.png"))
+    {
+      return -1;
+    }
+    player.sprite.setTexture(player.texture);
     while (window.isOpen())
     {
         sf::Event event;
@@ -36,9 +45,9 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-	shape.move(0,0.1);
+	player.sprite.move(0,0.1);
         window.clear();
-        window.draw(shape);
+        window.draw(player.sprite);
         window.display();
     }
 
